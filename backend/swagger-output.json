@@ -67,6 +67,49 @@
             "description": "Bad Request"
           }
         }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "_sort",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "_order",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "_page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "_limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
       }
     }
   }
