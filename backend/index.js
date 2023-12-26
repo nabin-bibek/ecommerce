@@ -6,7 +6,6 @@ const swaggerDocument = require('./swagger-output.json');
 const connectDB = require('./config/db');
 const productRouter = require('./routes/Product');
 
-
 const PORT= 5000;
 
 connectDB().catch(err => console.log(err));
