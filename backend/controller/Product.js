@@ -24,7 +24,7 @@ const createProduct = async (req, res) => {
 
 }
 
-const fetchAllProducts = async (req, res) => {
+const fetchProducts = async (req, res) => {
     let product = Product.find({})
 
     if (req.query.category)
@@ -52,4 +52,4 @@ const fetchAllProducts = async (req, res) => {
 
 }
 
-module.exports = { createProduct, fetchAllProducts };
+module.exports = { createProduct, fetchProducts };
