@@ -10,7 +10,6 @@ export function fetchProductsByFilters(filter, sort,pagination) {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
 
-  // let filterKey='';
   let queryString = "";
   for (let key in filter) {
     const categoryValues = filter[key];
@@ -32,7 +31,6 @@ export function fetchProductsByFilters(filter, sort,pagination) {
   return new Promise(async (resolve) => {
     const response = await fetch("/product?" + queryString);
     const data = await response.json();
-    resolve({ data });
     const totalItems = await response.headers.get("X-Total-Count");
     resolve({ data: { products: data, totalItems: +totalItems } });
   });
@@ -42,6 +40,20 @@ export function fetchProductsByFilters(filter, sort,pagination) {
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
     const response = await fetch("/product/"+id);
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+export function fetchCategories() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("/category");
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+export function fetchBrands() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("/brand");
     const data = await response.json();
     resolve({ data });
   });
