@@ -7,6 +7,8 @@ const connectDB = require('./config/db');
 const productRouter = require('./routes/Product');
 const categoryRouter = require('./routes/Category');
 const brandRouter = require('./routes/Brand');
+const userRouter = require('./routes/User');
+const authRouter = require('./routes/Auth');
 const cartRouter = require('./routes/Cart');
 
 const PORT = 5000;
@@ -20,6 +22,8 @@ server.use(express.json());
 server.use('/product', productRouter);
 server.use('/category', categoryRouter);
 server.use('/brand', brandRouter);
+server.use('/user', userRouter);
+server.use('/auth', authRouter);
 server.use('/cart', cartRouter)
 
 server.listen(PORT, () => {
