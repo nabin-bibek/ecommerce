@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { checkUserAsync, selectError, selectLoggedUser } from "../authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -11,9 +12,12 @@ export default function Login() {
     watch,
     formState: { errors },
   } = useForm();
+  const error = useSelector(selectError);
+  const user = useSelector(selectLoggedUser);
 
   return (
     <div>
+     {user && <Navigate to={'/'} replace={true}></Navigate>}
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -32,7 +36,9 @@ export default function Login() {
               noValidate
               className="space-y-6"
               onSubmit={handleSubmit((data) => {
-                console.log(data);
+                dispatch(
+                  checkUserAsync({ email: data.email, password: data.password })
+                );
               })}
             >
               <div>
@@ -108,6 +114,7 @@ export default function Login() {
                 >
                   Sign in
                 </button>
+                {error && <p className="text-red-500">{error.message}</p>}
               </div>
             </form>
 
