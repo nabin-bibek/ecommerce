@@ -39,7 +39,7 @@ export function fetchProductsByFilters(filter, sort,pagination) {
 
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/product/"+id);
+    const response = await fetch("/product/" + id);
     const data = await response.json();
     resolve({ data });
   });

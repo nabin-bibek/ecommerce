@@ -1,9 +1,35 @@
 
 // A mock function to mimic making an async request for data
-export function  fetchCount(amount = 1) {
+export function  createUser(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080");
+    const response = await fetch("/auth/signup",{
+      method:'POST',
+      body: JSON.stringify(userData),
+      headers:{
+        "content-type":"application/json",
+      },
+    });
     const data = await response.json();
+    console.log(data);
     resolve({ data });
+  });
+}
+export function  checkUser(userData) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch("/auth/login",{
+      method:'POST',
+      body: JSON.stringify(userData),
+      headers:{
+        "content-type":"application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      resolve({ data });
+    } else {
+      const errorMessage = data.message;
+      reject(new Error(errorMessage));
+    }
   });
 }

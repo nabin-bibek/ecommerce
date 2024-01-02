@@ -5,7 +5,7 @@ const addToCart = async (req, res) => {
     try {
         const data = await cart.save();
         const result= await data.populate('product');
-        res.status(201).json(data)
+        res.status(201).json(result)
     } catch (error) {
         res.status(400).json(error);
     }
