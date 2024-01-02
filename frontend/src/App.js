@@ -16,6 +16,7 @@ import { selectLoggedUser } from "./features/auth/authSlice";
 function App() {
   const dispatch = useDispatch();
    const user = useSelector(selectLoggedUser);
+   
   useEffect(()=>{
     if(user){
     dispatch(fetchItemsByUserIdAsync(user.id))
