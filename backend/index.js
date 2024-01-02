@@ -10,6 +10,7 @@ const brandRouter = require('./routes/Brand');
 const userRouter = require('./routes/User');
 const authRouter = require('./routes/Auth');
 const cartRouter = require('./routes/Cart');
+const orderRouter = require('./routes/Order');
 
 const PORT = 5000;
 
@@ -24,7 +25,8 @@ server.use('/category', categoryRouter);
 server.use('/brand', brandRouter);
 server.use('/user', userRouter);
 server.use('/auth', authRouter);
-server.use('/cart', cartRouter)
+server.use('/cart', cartRouter);
+server.use('/order', orderRouter);
 
 server.listen(PORT, () => {
     console.log(`Server Started at PORT: ${PORT}`.bgGreen);

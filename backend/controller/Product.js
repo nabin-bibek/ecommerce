@@ -25,8 +25,14 @@ const createProduct = async (req, res) => {
 }
 
 const fetchProducts = async (req, res) => {
-    let product = Product.find({});
-    let totalProducts = Product.find({});
+    let condition= {};
+    if(!req.query.admin)
+    {
+        condition.deleted ={$ne:true};
+
+    }
+    let product = Product.find(condition);
+    let totalProducts = Product.find(condition);
 
     if (req.query.category)
     {
