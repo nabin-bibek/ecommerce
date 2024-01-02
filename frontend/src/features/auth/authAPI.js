@@ -24,7 +24,6 @@ export function  checkUser(userData) {
       },
     });
     const data = await response.json();
-    console.log(data);
     if (response.ok) {
       resolve({ data });
     } else {
