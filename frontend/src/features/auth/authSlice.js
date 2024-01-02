@@ -48,6 +48,7 @@ export const userSlice = createSlice({
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
         state.error = action.error;
+        console.log(action);
       });
   },
 });

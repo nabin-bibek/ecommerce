@@ -28,7 +28,8 @@ export function  checkUser(userData) {
     if (response.ok) {
       resolve({ data });
     } else {
-      reject({ message: "user not found" });
+      const errorMessage = data.message;
+      reject(new Error(errorMessage));
     }
   });
 }
