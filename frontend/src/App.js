@@ -12,6 +12,10 @@ import {  useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { selectLoggedUser } from "./features/auth/authSlice";
+import PageNotFound from "./pages/404Page";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import UserOrdersPage from "./pages/UserOrdersPage";
+import UserProfile from "./features/user/components/UserProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +63,31 @@ function App() {
             </Protected>
           }
         />
+        <Route
+          path="/order-success/:id"
+          element={
+            <Protected>
+              <OrderSuccessPage />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-orders"
+          element={
+            <Protected>
+              <UserOrdersPage/>
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-profile"
+          element={
+            <Protected>
+              <UserProfile/>
+            </Protected>
+          }
+        />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
     if (!user)
         res.status(401).json({ message: "User Not registered with us" });
     else if (user.password === req.body.password) 
-        res.status(200).json({id:user.id, role: user.role})
+        res.status(200).json({id:user.id, role: user.role , address: user.address})
     else
         res.status(401).json({message:'Invalid Credentials'});
 }

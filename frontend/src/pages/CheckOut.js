@@ -8,6 +8,7 @@ import {
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
 import { selectLoggedUser, updateUserAsync } from "../features/auth/authSlice";
+import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
 
 
 
@@ -28,6 +29,7 @@ const [paymentMethod , setPaymentMethod ] = useState('cash');
   const [open, setOpen] = useState(true);
 const user = useSelector(selectLoggedUser);
   const items = useSelector(selectItems);
+  const currentOrder = useSelector(selectCurrentOrder);
   const totalAmount =  items.reduce(
     (amount, item) => item.product.price * item.quantity + amount,
     0
@@ -48,9 +50,37 @@ const user = useSelector(selectLoggedUser);
     dispatch(deleteItemFromCartAsync(id));
   };
 
+  const handleAddress =(e)=>{
+    setSelectedAddress(user.address[e.target.value]);
+  }
+  const handlePayment = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+
+  const handleOrder =()=>{
+    if(selectedAddress){
+    const order = {
+      items: items,
+      totalAmount,
+      totalItems,
+      user: user.id,
+      paymentMethod,
+      selectedAddress: selectedAddress,
+    };
+    dispatch(createOrderAsync(order));
+  }else{
+    window.alert("Please select one address.")
+  }
+
+  }
   return (
     <>
       {!items.length && <Navigate to={"/"} replace={true}></Navigate>}
+      {currentOrder && (
+        <Navigate to={`/order-success/${currentOrder.id}`} replace={true}></Navigate>
+      )}
+
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
@@ -237,7 +267,7 @@ const user = useSelector(selectLoggedUser);
                   </p>
 
                   <ul role="list">
-                    {user &&
+                    {user.address &&
                       user.address.map((add, index) => (
                         <li
                           key={index}
@@ -245,8 +275,10 @@ const user = useSelector(selectLoggedUser);
                         >
                           <div className="flex  gap-x-4 ">
                             <input
+                              onChange={handleAddress}
                               name="radio"
                               type="radio"
+                              value={index}
                               className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring indigo-600"
                             />
 
@@ -284,7 +316,10 @@ const user = useSelector(selectLoggedUser);
                           <input
                             id="cash"
                             name="payments"
+                            onChange={handlePayment}
                             type="radio"
+                            value={"cash"}
+                            checked={paymentMethod == "cash"}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                           />
                           <label
@@ -297,6 +332,9 @@ const user = useSelector(selectLoggedUser);
                         <div className="flex items-center gap-x-3">
                           <input
                             id="card"
+                            onChange={handlePayment}
+                            value={"card"}
+                            checked={paymentMethod == "card"}
                             name="payments"
                             type="radio"
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
@@ -395,12 +433,12 @@ const user = useSelector(selectLoggedUser);
                   Shipping and taxes calculated at checkout.
                 </p>
                 <div className="mt-6">
-                  <Link
-                    to="/checkout"
-                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                  <div
+                    onClick={handleOrder}
+                    className="flex items-center justify-center cursor-pointer rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                   >
-                    Checkout
-                  </Link>
+                    Order now
+                  </div>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                   <p>
