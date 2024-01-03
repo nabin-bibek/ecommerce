@@ -23,7 +23,6 @@ export function fetchProductsByFilters(filter, sort,pagination) {
     console.log(queryString);
   }
 
-  console.log(pagination);
   for (let key in pagination) {
     queryString += `${key}=${pagination[key]}&`;
   }
