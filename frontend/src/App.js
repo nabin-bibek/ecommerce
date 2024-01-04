@@ -19,6 +19,10 @@ import UserProfilePage from "./pages/UserProfilePage";
 import { fetchUserInfoAsync } from "./features/user/userSlice";
 import LogOut from "./features/auth/components/LogOut";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
+import AdminHome from "./pages/AdminHome";
+import AdminProductDetailPage from "./pages/AdminProductDetailPage";
+import AdminProductFormPage from "./pages/AdminProductFormPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,7 +62,6 @@ function App() {
             </Protected>
           }
         />
-
         <Route
           path="/product-detail/:id"
           element={
@@ -87,7 +90,7 @@ function App() {
           path="/user-profile"
           element={
             <Protected>
-              <UserProfilePage/>
+              <UserProfilePage />
             </Protected>
           }
         />
@@ -95,14 +98,41 @@ function App() {
           path="/logout"
           element={
             <Protected>
-              <LogOut/>
+              <LogOut />
             </Protected>
           }
         />
+        <Route path="/forget-password" element={<ForgetPasswordPage />} />
         <Route
-          path="/forget-password"
+          path="/admin"
           element={
-              <ForgetPasswordPage/>
+            <ProtectedAdmin>
+              <AdminHome />
+            </ProtectedAdmin>
+          }
+        />
+        <Route
+          path="/admin/product-detail/:id"
+          element={
+            <ProtectedAdmin>
+              <AdminProductDetailPage />
+            </ProtectedAdmin>
+          }
+        />
+        <Route
+          path="/admin/product-form"
+          element={
+            <ProtectedAdmin>
+              <AdminProductFormPage />
+            </ProtectedAdmin>
+          }
+        />
+        <Route
+          path="/admin/product-form/edit/:id"
+          element={
+            <ProtectedAdmin>
+              <AdminProductFormPage />
+            </ProtectedAdmin>
           }
         />
         <Route path="*" element={<PageNotFound />} />

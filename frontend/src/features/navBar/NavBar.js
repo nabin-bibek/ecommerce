@@ -8,30 +8,29 @@ import {
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
+import { selectLoggedUser } from "../auth/authSlice";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
+  { name: "Dashboard", link: "/", user: true },
+  { name: "Orders", link: "/user-orders", user: true },
+  { name: "Admin", link: "/admin", admin: true },
 ];
 const userNavigation = [
-  { name: "My Profile", href: "/user-profile" },
-  { name: "My Orders", href: "/user-orders" },
-  { name: "Sign out", href: "/logout" },
+  { name: "My Profile", link: "/user-profile" },
+  { name: "My Orders", link: "/user-orders" },
+  { name: "Sign out", link: "/logout" },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 function NavBar({ children }) {
   const items = useSelector(selectItems);
+  const user = useSelector(selectLoggedUser);
+
   return (
-    <div>
+    <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
@@ -50,21 +49,23 @@ function NavBar({ children }) {
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className={classNames(
-                              item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
-                            )}
-                            aria-current={item.current ? "page" : undefined}
-                          >
-                            {item.name}
-                          </a>
-                        ))}
+                        {navigation.map((item) =>
+                          item[user.role] ? (
+                            <Link
+                              key={item.name}
+                              to={item.link}
+                              className={classNames(
+                                item.current
+                                  ? "bg-gray-900 text-white"
+                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                          ) : null
+                        )}
                       </div>
                     </div>
                   </div>
@@ -73,9 +74,9 @@ function NavBar({ children }) {
                       <Link to="/cart">
                         <button
                           type="button"
-                          className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                          className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
-                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">View notifications</span>
                           <ShoppingCartIcon
                             className="h-6 w-6"
                             aria-hidden="true"
@@ -83,7 +84,7 @@ function NavBar({ children }) {
                         </button>
                       </Link>
                       {items.length > 0 && (
-                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                           {items.length}
                         </span>
                       )}
@@ -91,12 +92,13 @@ function NavBar({ children }) {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span className="absolute -inset-1.5" />
+                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={
+                                "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                              }
                               alt=""
                             />
                           </Menu.Button>
@@ -115,7 +117,7 @@ function NavBar({ children }) {
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <Link
-                                    to={item.href}
+                                    to={item.link}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -133,8 +135,7 @@ function NavBar({ children }) {
                   </div>
                   <div className="-mr-2 flex md:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="absolute -inset-0.5" />
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <XMarkIcon
@@ -191,9 +192,8 @@ function NavBar({ children }) {
                     <Link to="/cart">
                       <button
                         type="button"
-                        className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
-                        <span className="absolute -inset-1.5" />
                         <ShoppingCartIcon
                           className="h-6 w-6"
                           aria-hidden="true"
@@ -201,7 +201,7 @@ function NavBar({ children }) {
                       </button>
                     </Link>
                     {items.length > 0 && (
-                      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                         {items.length}
                       </span>
                     )}
@@ -227,7 +227,7 @@ function NavBar({ children }) {
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Ecommerce
+              E-Commerce
             </h1>
           </div>
         </header>
@@ -237,7 +237,7 @@ function NavBar({ children }) {
           </div>
         </main>
       </div>
-    </div>
+    </>
   );
 }
 
