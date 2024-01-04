@@ -32,19 +32,10 @@ export function  checkUser(userData) {
     }
   });
 }
-
-
-export function updateUser(update) {
+export function  signOut(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/user/"+update.id, {
-      method: "PATCH",
-      body: JSON.stringify(update),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    resolve({ data });
+  resolve({data : 'success'})
   });
 }
+
+

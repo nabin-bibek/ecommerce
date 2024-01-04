@@ -15,7 +15,10 @@ import { selectLoggedUser } from "./features/auth/authSlice";
 import PageNotFound from "./pages/404Page";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrdersPage from "./pages/UserOrdersPage";
-import UserProfile from "./features/user/components/UserProfile";
+import UserProfilePage from "./pages/UserProfilePage";
+import { fetchUserInfoAsync } from "./features/user/userSlice";
+import LogOut from "./features/auth/components/LogOut";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +26,7 @@ function App() {
   useEffect(()=>{
     if(user){
     dispatch(fetchItemsByUserIdAsync(user.id))
+    dispatch(fetchUserInfoAsync(user.id));
     }
   },[dispatch, user]);
   return (
@@ -75,7 +79,7 @@ function App() {
           path="/user-orders"
           element={
             <Protected>
-              <UserOrdersPage/>
+              <UserOrdersPage />
             </Protected>
           }
         />
@@ -83,8 +87,22 @@ function App() {
           path="/user-profile"
           element={
             <Protected>
-              <UserProfile/>
+              <UserProfilePage/>
             </Protected>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <Protected>
+              <LogOut/>
+            </Protected>
+          }
+        />
+        <Route
+          path="/forget-password"
+          element={
+              <ForgetPasswordPage/>
           }
         />
         <Route path="*" element={<PageNotFound />} />
