@@ -23,6 +23,7 @@ import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
 import AdminHome from "./pages/AdminHome";
 import AdminProductDetailPage from "./pages/AdminProductDetailPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -124,6 +125,14 @@ function App() {
           element={
             <ProtectedAdmin>
               <AdminProductFormPage />
+            </ProtectedAdmin>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedAdmin>
+              <AdminOrdersPage />
             </ProtectedAdmin>
           }
         />

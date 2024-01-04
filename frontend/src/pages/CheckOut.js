@@ -9,8 +9,10 @@ import {
 import { useForm } from "react-hook-form";
 import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
 import { selectUserInfo, updateUserAsync } from "../features/user/userSlice";
+import { discountedPrice } from "../app/constant";
 
-
+ import { ToastContainer, toast } from "react-toastify";
+ import "react-toastify/dist/ReactToastify.css";
 
 const CheckOut = () => {
 
@@ -31,7 +33,7 @@ const user = useSelector(selectUserInfo);
   const items = useSelector(selectItems);
   const currentOrder = useSelector(selectCurrentOrder);
   const totalAmount =  items.reduce(
-    (amount, item) => item.product.price * item.quantity + amount,
+    (amount, item) => discountedPrice(item.product) * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
@@ -70,7 +72,16 @@ const user = useSelector(selectUserInfo);
     };
     dispatch(createOrderAsync(order));
   }else{
-    window.alert("Please select one address.")
+     toast.warning("Please Select An Address!", {
+       position: "top-center",
+       autoClose: 5000,
+       hideProgressBar: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       theme: "light",
+     });
   }
 
   }
@@ -102,6 +113,19 @@ const user = useSelector(selectUserInfo);
                 reset();
               })}
             >
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
+              <ToastContainer />
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                   <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -277,7 +301,6 @@ const user = useSelector(selectUserInfo);
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
-                 
                   <button
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -405,7 +428,9 @@ const user = useSelector(selectUserInfo);
                               <h3>
                                 <a href={item.href}>{item.product.title}</a>
                               </h3>
-                              <p className="ml-4">${item.product.price}</p>
+                              <p className="ml-4">
+                                ${discountedPrice(item.product)}
+                              </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
                               {item.product.brand}

@@ -17,7 +17,7 @@ export default function ForgetPassword() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src="/ecommerce.png"
               alt="Your Company"
             />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -30,7 +30,7 @@ export default function ForgetPassword() {
               noValidate
               className="space-y-6"
               onSubmit={handleSubmit((data) => {
-               console.log(data);
+                console.log(data);
               })}
             >
               <div>
@@ -59,8 +59,6 @@ export default function ForgetPassword() {
                 </div>
               </div>
 
-             
-
               <div>
                 <button
                   type="submit"
@@ -68,17 +66,16 @@ export default function ForgetPassword() {
                 >
                   Send email
                 </button>
-               
               </div>
             </form>
 
             <p className="mt-10 text-center text-sm text-gray-500">
-             Send me back to login{" "}
+              Send me back to login{" "}
               <Link
                 to="/login"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
               >
-               Login
+                Login
               </Link>
             </p>
           </div>
