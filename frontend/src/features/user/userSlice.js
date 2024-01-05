@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchOrdersOfUser, updateUser, fetchUserInfo } from "./userAPI";
+import { fetchOrdersOfUser, updateUser, fetchUserInfo, signOut } from "./userAPI";
 
 const initialState = {
   userOrders: [],
@@ -25,12 +25,17 @@ export const updateUserAsync = createAsyncThunk(
     return response.data;
   }
 );
+export const signOutAsync = createAsyncThunk("user/signOut", async () => {
+  const response = await signOut();
+  return response.data;
+});
 export const counterSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     increment: (state) => {
-      state.value += 1;
+      state.userInfo = null;
+
     },
   },
 
@@ -56,11 +61,19 @@ export const counterSlice = createSlice({
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.userInfo = action.payload;
+      })
+      .addCase(signOutAsync.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(signOutAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.userInfo = null;
+        localStorage.removeItem("token");
       });
+   
   },
 });
 
-export const { increment } = counterSlice.actions;
 
 export const selectUserOrders = (state) => state.user.userOrders;
 export const selectUserInfo = (state) => state.user.userInfo;

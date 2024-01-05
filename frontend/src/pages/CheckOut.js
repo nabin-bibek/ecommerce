@@ -318,7 +318,7 @@ const user = useSelector(selectUserInfo);
                   </p>
 
                   <ul role="list">
-                    {user.address &&
+                    {user && user.address &&
                       user.address.map((add, index) => (
                         <li
                           key={index}

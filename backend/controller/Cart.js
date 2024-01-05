@@ -16,13 +16,10 @@ const addToCart = async (req, res) => {
 }
 
 const fetchCartByUser = async (req, res) => {
-    const { user } = req.query;
-    if (user != req.user._id) {
-        res.status(401).json({ status: 'error', msg: 'Product Not Found' })
-        return;
-    }
+    
+
     try {
-        const cartItems = await Cart.find({ user: req.user._id })
+        const cartItems = await Cart.find({ user: req.user.id })
             .populate('product');
         res.status(200).json(cartItems);
     } catch (error) {

@@ -22,10 +22,23 @@ export function updateUser(update) {
   });
 }
 
-export function fetchUserInfo(userId) {
+export function fetchUserInfo() {
+  const token = localStorage.getItem('token');
   return new Promise(async (resolve) => {
-    const response = await fetch("/user/" + userId);
+    const response = await fetch("/user/",{
+      method: "GET",
+      headers:{
+          "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    });
     const data = await response.json();
     resolve({ data });
+  });
+}
+
+export function signOut() {
+  return new Promise(async (resolve) => {
+    resolve({ data: "success" });
   });
 }

@@ -14,13 +14,6 @@ export const createUserAsync = createAsyncThunk(
     return response.data;
   }
 );
-export const signOutAsync = createAsyncThunk(
-  "user/signOut",
-  async (userId) => {
-    const response = await signOut(userId);
-    return response.data;
-  }
-);
 
 
 export const checkUserAsync = createAsyncThunk("user/checkUser", async (loginInfo) => {
@@ -32,8 +25,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
+    logOut: (state) => {
+      state.loggedInUser = null;
     },
   },
 
@@ -45,6 +38,8 @@ export const userSlice = createSlice({
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.loggedInUser = action.payload;
+        localStorage.setItem("token", action.payload.token);
+
       })
       .addCase(checkUserAsync.pending, (state) => {
         state.status = "loading";
@@ -52,23 +47,18 @@ export const userSlice = createSlice({
       .addCase(checkUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.loggedInUser = action.payload;
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
         state.error = action.error;
-      })
-      .addCase(signOutAsync.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(signOutAsync.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.loggedInUser = null;
       });
-   
    
   },
 });
 
+
+export const { logOut } = userSlice.actions;
 
 export const selectLoggedUser = (state) => state.auth.loggedInUser;
 export const selectError = (state) => state.auth.error;

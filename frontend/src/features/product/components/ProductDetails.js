@@ -5,11 +5,13 @@ import { RadioGroup } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductByIdAsync, selectedProduct } from '../productSlice'
 import { useParams } from 'react-router-dom'
-import { selectLoggedUser } from '../../auth/authSlice'
 import {addToCartAsync, resetSuccess, selectCartSuccess, selectItems } from '../../cart/cartSlice';
 import { discountedPrice } from '../../../app/constant'
  import { ToastContainer, toast } from "react-toastify";
  import "react-toastify/dist/ReactToastify.css";
+import { selectUserInfo } from '../../user/userSlice'
+import { Grid } from "react-loader-spinner";
+
 const colors = [
     { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
     { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
@@ -43,8 +45,7 @@ export default function ProductDetails() {
 const dispatch = useDispatch();
 const items = useSelector(selectItems);
 const params = useParams();
-const user = useSelector(selectLoggedUser);
-  const success = useSelector(selectCartSuccess);
+const user = useSelector(selectUserInfo);
 
 
   const handleCart = (e) => {
@@ -93,8 +94,6 @@ dispatch(fetchProductByIdAsync(params.id));
     <>
       {product && (
         <div className="bg-white">
-       
-
           <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -151,6 +150,18 @@ dispatch(fetchProductByIdAsync(params.id));
 
             {/* Image gallery */}
             <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+              {!user?(
+              <Grid
+                height="80"
+                width="150"
+                color="rgb(79, 70, 229) "
+                ariaLabel="grid-loading"
+                radius="12.5"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+              ) : null}
               <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                 <img
                   src={product.images[0]}
