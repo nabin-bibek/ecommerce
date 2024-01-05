@@ -4,6 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { checkUserAsync, selectError, selectLoggedUser } from "../authSlice";
 
+
+  
 export default function Login() {
   const dispatch = useDispatch();
   const {
@@ -17,13 +19,14 @@ export default function Login() {
 
   return (
     <div>
-     {user && <Navigate to={'/'} replace={true}></Navigate>}
+     
+      {user && <Navigate to={"/"} replace={true}></Navigate>}
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src="/ecommerce.png"
               alt="Your Company"
             />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -77,7 +80,7 @@ export default function Login() {
                   </label>
                   <div className="text-sm">
                     <Link
-                     to={'/forget-password'}
+                      to={"/forget-password"}
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?
@@ -130,6 +133,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+   
     </div>
   );
 }

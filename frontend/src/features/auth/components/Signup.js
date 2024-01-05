@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { createUserAsync , selectLoggedUser } from "../authSlice";
-
-
+import { createUserAsync, selectLoggedUser } from "../authSlice";
 
 export default function Signup() {
   const dispatch = useDispatch();
 
-    const {
-      register,
-      handleSubmit,
-      watch,
-      formState: { errors },
-    } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const user = useSelector(selectLoggedUser);
 
-    
   return (
     <div>
       {user && <Navigate to={"/"} replace={true}></Navigate>}
@@ -26,7 +23,7 @@ export default function Signup() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src="/ecommerce.png"
               alt="Your Company"
             />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

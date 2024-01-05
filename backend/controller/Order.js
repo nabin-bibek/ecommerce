@@ -34,7 +34,7 @@ const deleteOrder = async (req, res)=> {
 const updateOrder = async (req,res) => {
     const {id} = req.params;
     try {
-        const order= await Order.findByIdAndUpdate(id, req,body, {new: true});
+        const order= await Order.findByIdAndUpdate(id, req.body, {new: true});
         res.status(200).json(order);
     } catch (error) {
         
@@ -60,7 +60,7 @@ const fetchOrders = async(req, res) => {
     
     
         try {
-            const data = await product.exec();
+            const data = await order.exec();
             res.set('X-Total-Count', totalNoOrders);
             res.status(200).json(data);
         } catch (error) {

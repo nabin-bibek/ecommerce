@@ -11,9 +11,9 @@ import { selectItems } from "../cart/cartSlice";
 import { selectLoggedUser } from "../auth/authSlice";
 
 const navigation = [
-  { name: "Dashboard", link: "/", user: true },
-  { name: "Orders", link: "/user-orders", user: true },
-  { name: "Admin", link: "/admin", admin: true },
+  { name: "Products", link: "/", user: true },
+  { name: "Orders", link: "/admin/orders", admin: true },
+  { name: "AdminProducts", link: "/admin", admin: true },
 ];
 const userNavigation = [
   { name: "My Profile", link: "/user-profile" },
@@ -42,7 +42,7 @@ function NavBar({ children }) {
                       <Link to="/">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src="/ecommerce.png"
                           alt="Your Company"
                         />
                       </Link>

@@ -49,7 +49,7 @@ export const fetchProductByIdAsync = createAsyncThunk(
 );
 export const fetchProductsByFiltersAsync = createAsyncThunk(
   "product/fetchProductsByFilters",
-  async ({ filter, sort, pagination }) => {
+  async ({ filter, sort, pagination ,role}) => {
     const response = await fetchProductsByFilters(filter, sort, pagination);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
@@ -150,5 +150,6 @@ export const selectTotalItems = (state) => state.product.totalItems;
 export const selectCategories = (state) => state.product.categories;
 export const selectBrands = (state) => state.product.brands;
 export const selectedProduct = (state) => state.product.selectedProduct;
+export const selectedProductStatus = (state) => state.product.status;
 
 export default productSlice.reducer;

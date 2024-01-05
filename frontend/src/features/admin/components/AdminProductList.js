@@ -24,7 +24,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from '@heroicons/react/20/solid';
-import { ITEMS_PER_PAGE } from '../../../app/constant';
+import { ITEMS_PER_PAGE, discountedPrice } from '../../../app/constant';
 
 const sortOptions = [
   { name: 'Best Rating', sort: 'rating', order: 'desc', current: false },
@@ -482,7 +482,7 @@ function ProductGrid({ products }) {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
           {products.map((product, index) => (
             <div key={index}>
-              <Link to={`/product-detail/${product.id}`} key={product.id}>
+              <Link to={`/admin/product-detail/${product.id}`} key={product.id}>
                 <div className="group relative border-solid border-2 p-2 border-gray-200">
                   <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                     <img
@@ -510,9 +510,7 @@ function ProductGrid({ products }) {
                     <div>
                       <p className="text-sm block font-medium text-gray-900">
                         $
-                        {Math.round(
-                          product.price * (1 - product.discountPercentage / 100)
-                        )}
+                        {discountedPrice(product)}
                       </p>
                       <p className="text-sm block line-through font-medium text-gray-400">
                         ${product.price}
