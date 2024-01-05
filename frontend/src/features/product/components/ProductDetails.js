@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductByIdAsync, selectedProduct } from '../productSlice'
 import { useParams } from 'react-router-dom'
 import { selectLoggedUser } from '../../auth/authSlice'
-import {addToCartAsync, selectItems } from '../../cart/cartSlice';
+import {addToCartAsync, resetSuccess, selectCartSuccess, selectItems } from '../../cart/cartSlice';
 import { discountedPrice } from '../../../app/constant'
  import { ToastContainer, toast } from "react-toastify";
  import "react-toastify/dist/ReactToastify.css";
@@ -44,12 +44,24 @@ const dispatch = useDispatch();
 const items = useSelector(selectItems);
 const params = useParams();
 const user = useSelector(selectLoggedUser);
+  const success = useSelector(selectCartSuccess);
 
 
   const handleCart = (e) => {
     e.preventDefault();
   if(items.findIndex(item=>item.product.id===product.id)<0){
     dispatch(addToCartAsync({ product: product.id, quantity: 1, user: user.id }));
+      toast.success(`${product.title} added in cart !`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+   
   }
   else{
       
@@ -67,6 +79,9 @@ const user = useSelector(selectLoggedUser);
   }
 
   };
+
+
+
 
 useEffect(()=>{
 dispatch(fetchProductByIdAsync(params.id));

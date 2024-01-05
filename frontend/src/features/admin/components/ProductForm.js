@@ -452,6 +452,7 @@ function ProductForm() {
           </button>
         </div>
       </form>
+      {selectedProductById &&
       <Modal
         title={`Delete ${selectedProductById.title}`}
         message="Are you sure you want to delete this Product ?"
@@ -461,6 +462,7 @@ function ProductForm() {
         cancelAction={() => setOpenModal(null)}
         showModal={openModal}
       ></Modal>
+}
     </>
   );
 }
