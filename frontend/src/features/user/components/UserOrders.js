@@ -13,6 +13,22 @@ useEffect(()=>{
 dispatch(fetchOrdersOfUserAsync(user.id));
 },[dispatch, user])
 
+
+
+  const chooseColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-purple-200 text-purple-600";
+      case "dispatched":
+        return "bg-yellow-200 text-yellow-600";
+      case "delivered":
+        return "bg-green-200 text-green-600";
+      case "cancelled":
+        return "bg-red-200 text-red-600";
+      default:
+        return "bg-purple-200 text-purple-600";
+    }
+  };
   return (
     <div>
       {orders &&
@@ -24,7 +40,11 @@ dispatch(fetchOrdersOfUserAsync(user.id));
                   <h1 className="text-2xl my-5 font-bold tracking-tight text-gray-900">
                     Order : #{order.id}
                   </h1>
-                  <h3 className="text-xl my-5 font-bold tracking-tight text-red-400">
+                  <h3
+                    className={`${chooseColor(
+                      order.status
+                    )}text-xl my-5 font-bold tracking-tight w-auto `}
+                  >
                     Order Status : {order.status}
                   </h3>
                   <div className="flow-root">
@@ -45,7 +65,9 @@ dispatch(fetchOrdersOfUserAsync(user.id));
                                 <h3>
                                   <a href={item.href}>{item.product.title}</a>
                                 </h3>
-                                <p className="ml-4">${discountedPrice(item.product)}</p>
+                                <p className="ml-4">
+                                  ${discountedPrice(item.product)}
+                                </p>
                               </div>
                               <p className="mt-1 text-sm text-gray-500">
                                 {item.product.brand}
@@ -78,7 +100,7 @@ dispatch(fetchOrdersOfUserAsync(user.id));
                     <p>{order.totalItems} items</p>
                   </div>
                   <p className="mt-0.5 text-sm text-green-900">
-                    Shipping Address : 
+                    Shipping Address :
                   </p>
 
                   <div className="flex justify-between gap-x-6 py-5 border-solid border-2 border-gray-200 px-4">
@@ -97,7 +119,8 @@ dispatch(fetchOrdersOfUserAsync(user.id));
                         Phone : {order.selectedAddress.phone}
                       </p>
                       <p className="mt-1 text-xs leading-5 text-gray-500">
-                        {order.selectedAddress.city} , {order.selectedAddress.state}
+                        {order.selectedAddress.city} ,{" "}
+                        {order.selectedAddress.state}
                       </p>
                     </div>
                   </div>

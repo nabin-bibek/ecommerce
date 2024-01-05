@@ -5,7 +5,7 @@ const CartPage = () => {
     <div>
       <Cart></Cart>
     </div>
-  )
+  );
 }
 
 export default CartPage
