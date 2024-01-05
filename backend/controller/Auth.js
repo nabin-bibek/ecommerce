@@ -1,4 +1,5 @@
 const { User } = require("../model/User");
+const generateToken = require("../utils/generateToken");
 
 const createUser = async (req, res) => {
     if(!req.body.email || !req.body.password)
@@ -9,7 +10,7 @@ const createUser = async (req, res) => {
     const user = new User(req.body);
     try {
         const data = await user.save();
-        res.status(201).json({id: data.id, role:data.role});
+        res.status(201).json({id: data.id, role:data.role, token:generateToken(data.id)});
     } catch (error) {
         res.status(400).json(error);
     }
@@ -20,7 +21,7 @@ const loginUser = async (req, res) => {
     if (!user)
         res.status(401).json({ message: "User Not registered with us" });
     else if (user.password === req.body.password) 
-        res.status(200).json({id:user.id, role: user.role})
+        res.status(200).json({id:user.id, role: user.role, token:generateToken(user.id)})
     else
         res.status(401).json({message:'Invalid Credentials'});
 }
