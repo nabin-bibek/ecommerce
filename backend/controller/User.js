@@ -20,9 +20,9 @@ const updateUser= async (req, res)=> {
 }
 
 const fetchUserById= async(req, res) => {
-    const {id} = req.params;
+ 
     try {
-        const user= await User.findById(id, 'id email name address orders');
+        const user= await User.findById(req.user.id, 'id email name address orders role');
         res.status(200).json(user);
         
     } catch (error) {

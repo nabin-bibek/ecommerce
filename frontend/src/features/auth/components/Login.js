@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { checkUserAsync, selectError, selectLoggedUser } from "../authSlice";
 
-
-  
 export default function Login() {
   const dispatch = useDispatch();
   const {
@@ -16,10 +14,12 @@ export default function Login() {
   } = useForm();
   const error = useSelector(selectError);
   const user = useSelector(selectLoggedUser);
+  const navigate = useNavigate();
+
+
 
   return (
     <div>
-     
       {user && <Navigate to={"/"} replace={true}></Navigate>}
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -133,7 +133,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-   
     </div>
   );
 }

@@ -1,15 +1,18 @@
 import { useEffect } from "react";
-import { selectLoggedUser, signOutAsync } from "../authSlice";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { selectUserInfo, signOutAsync } from "../../user/userSlice";
+import { logOut } from "../authSlice";
 
 function LogOut() {
-
+  const  navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(selectLoggedUser);
+    const user = useSelector(selectUserInfo);
     useEffect(()=>{
-        dispatch(signOutAsync(user.id));
-    })
+        localStorage.removeItem('token');
+        dispatch(logOut());
+        dispatch(signOutAsync());
+    },[navigate]);
     return <>{!user && <Navigate to={"/login"} replace={true}></Navigate>}</>;
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -16,7 +16,7 @@ import PageNotFound from "./pages/404Page";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrdersPage from "./pages/UserOrdersPage";
 import UserProfilePage from "./pages/UserProfilePage";
-import { fetchUserInfoAsync } from "./features/user/userSlice";
+import { fetchUserInfoAsync, selectUserInfo } from "./features/user/userSlice";
 import LogOut from "./features/auth/components/LogOut";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
@@ -27,13 +27,12 @@ import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
   const dispatch = useDispatch();
-   const user = useSelector(selectLoggedUser);
-  useEffect(()=>{
-    if(user){
-    dispatch(fetchItemsByUserIdAsync(user.id))
-    dispatch(fetchUserInfoAsync(user.id));
-    }
-  },[dispatch, user]);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(fetchItemsByUserIdAsync());
+    dispatch(fetchUserInfoAsync());
+  }, [navigate]);
   return (
     <div className="App">
       <Routes>
@@ -98,9 +97,7 @@ function App() {
         <Route
           path="/logout"
           element={
-            <Protected>
               <LogOut />
-            </Protected>
           }
         />
         <Route path="/forget-password" element={<ForgetPasswordPage />} />

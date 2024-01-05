@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
 import { selectLoggedUser } from '../../auth/authSlice';
 import { discountedPrice } from '../../../app/constant';
+import { selectUserInfo } from '../../user/userSlice';
 
 
 const colors = [
@@ -41,7 +42,7 @@ function classNames(...classes) {
 export default function AdminProductDetail() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
-  const user = useSelector(selectLoggedUser);
+  const user = useSelector(selectUserInfo);
   const product = useSelector(selectedProduct);
   const dispatch = useDispatch();
   const params = useParams();
