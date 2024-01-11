@@ -9,12 +9,15 @@ export function  fetchOrdersOfUser(userId) {
 }
 
 export function updateUser(update) {
+  const token = localStorage.getItem("token");
+
   return new Promise(async (resolve) => {
     const response = await fetch("/user/" + update.id, {
       method: "PATCH",
       body: JSON.stringify(update),
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     const data = await response.json();

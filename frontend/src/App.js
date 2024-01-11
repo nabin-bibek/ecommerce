@@ -27,12 +27,12 @@ import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const user = useSelector(selectLoggedUser);
   useEffect(() => {
     dispatch(fetchItemsByUserIdAsync());
     dispatch(fetchUserInfoAsync());
-  }, [navigate]);
+  }, [navigate ]);
   return (
     <div className="App">
       <Routes>

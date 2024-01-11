@@ -5,6 +5,6 @@ const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", protect, fetchUserById).patch("/:id", updateUser);
+router.get("/", protect, fetchUserById).patch("/:id",protect, updateUser);
 
 module.exports =  router;

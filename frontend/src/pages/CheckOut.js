@@ -377,7 +377,7 @@ const user = useSelector(selectUserInfo);
                             htmlFor="payments"
                             className="block text-sm font-medium leading-6 text-gray-900"
                           >
-                            Cash
+                            Cash On Delivery
                           </label>
                         </div>
                         <div className="flex items-center gap-x-3">
@@ -394,7 +394,7 @@ const user = useSelector(selectUserInfo);
                             htmlFor="push-email"
                             className="block text-sm font-medium leading-6 text-gray-900"
                           >
-                            Card payment
+                            Esewa payment
                           </label>
                         </div>
                       </div>
