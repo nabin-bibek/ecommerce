@@ -1,8 +1,16 @@
 
 // A mock function to mimic making an async request for data
 export function  fetchOrdersOfUser(userId) {
+  const token = localStorage.getItem("token");
+
   return new Promise(async (resolve) => {
-    const response = await fetch("order/user/"+userId);
+    const response = await fetch("order/user/"+userId, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
     resolve({ data });
   });
