@@ -89,7 +89,7 @@ These are the things you need to do to install this project:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/nabin154/Globetalk-mern_chatApp.git
+   git clone https://github.com/nabin-bibek/ecommerce.git
    ```
 2. Get into the both directory frontend and backend:
    
